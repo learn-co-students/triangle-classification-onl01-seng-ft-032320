@@ -1,5 +1,5 @@
 class Triangle
-  attr_accessor :length1, :length2, :length3, :triangle
+  attr_accessor :length1, :length2, :length3
   
   def initialize(length1, length2, length3)
     
@@ -10,36 +10,39 @@ class Triangle
   end
 
   def valid?
-    if (length1 > 0 && length2 > 0 && length3 > 0) && (length1 + length2 > length3 && length1 + length3 > length2 && length2 + length3 > length1)
-      true
-    else
+    if length1 <= 0 || length2 <= 0 || length3 <= 0
       false
+    elsif
+      length1 + length2 <= length3 || length1 + length3 <= length2 || length2 + length3 <= length1
+      false
+    else
+      true
     end
   end
   
   def kind
-    
     if valid?
-      if
-          length1 == length2 && length2 == length3
-          :equilateral
+        if length1 == length2 && length2 == length3
+        :equilateral
         elsif
           length1 == length2 && length2 != length3 || length2 == length3 && length1 != length2 || length1 == length3 && length1 != length2
           :isosceles
         else
           :scalene
+        end
+
+      else
+        raise TriangleError
       end
-    else
-    
-      raise TriangleError
+    # returns one of the following symbols depending on the type of triangle calculated by
+    # each side needs to be > 0
+  end
+  
+  class TriangleError < StandardError
+    def message
+      "Please use a number greater than 0"
     end
   end
-    
-    class TriangleError < StandardError
-      def message
-        "Please use a number greater than 0"
-      end
-    end
   
 end
 
